@@ -42,7 +42,7 @@ public static class BD
     {
         using (SqlConnection db = new SqlConnection(_ConnectionString))
         {
-            string SQL = ""
+            string SQL = "";
 
 
             if (dificultad == -1 && categoria == -1)

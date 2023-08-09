@@ -63,7 +63,7 @@ public class HomeController : Controller
 
         if (PreguntaActual == null)
         {
-            return View("Fin")
+            return View("Fin");
         }
 
 
@@ -74,7 +74,7 @@ public class HomeController : Controller
         ViewBag.Respuestas = respuestas;
 
 
-        return View("Juego")
+        return View("Juego");
     }
 
 
