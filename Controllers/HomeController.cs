@@ -2,30 +2,137 @@
 using Microsoft.AspNetCore.Mvc;
 using PreguntadORT.Models;
 
+
 namespace PreguntadORT.Controllers;
+
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+
 
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
     }
 
+
     public IActionResult Index()
     {
-        return View();
+        return View("Index");
     }
+
+
+    public IActionResult ConfigurarJuego()
+    {
+        Juego.InicializarJuego();
+
+
+        List<Categoria> categorias = Juego.ObtenerCategorias();
+        List<Dificultad> dificultades = Juego.ObtenerDificultades();
+
+
+        ViewBag.Categorias = categorias;
+        ViewBag.Dificultades = dificultades;
+
+
+        return View("ConfigurarJuego");
+    }
+
+
+    public IActionResult Comenzar(string username, int dificultad, int categoria)
+    {
+        Juego.CargarPartida(username, dificultad, categoria);
+
+
+        if (Juego.ObtenerProximaPregunta() != null)
+        {
+            return View("Jugar");
+        }
+        else
+        {
+            return View("ConfigurarJuego");
+        }
+    }
+
+
+    public IActionResult Jugar()
+    {
+        Pregunta PreguntaActual = Juego.ObtenerProximaPregunta();
+
+
+        if (PreguntaActual == null)
+        {
+            return View("Fin")
+        }
+
+
+        List<Respuesta> respuestas = Juego.ObtenerProximasRespuestas(PreguntaActual.IdPregunta);
+
+
+        ViewBag.Pregunta = PreguntaActual;
+        ViewBag.Respuestas = respuestas;
+
+
+        return View("Juego")
+    }
+
 
     public IActionResult Privacy()
     {
         return View();
     }
 
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+
+    [HttpPost]
+    public IActionResult VerificarRespuesta(int idPregunta, int idRespuesta)
+    {
+        bool respuestaCorrecta = Juego.VerificarRespuesta(idPregunta, idRespuesta);
+
+
+        //(Opcional)
+        Respuesta respuestaCorrectaYN = null;
+
+
+        if (!respuestaCorrecta)
+        {
+            Pregunta pregunta = _preguntas.SingleOrDefault(p => p.IdPregunta == idPregunta);
+            if (pregunta != null)
+            {
+                foreach (Respuesta respuesta in _respuestas)
+                {
+                    if (respuesta.IdRespuesta == pregunta.IdRespuestaCorrecta)
+                    {
+                        respuestaCorrectaYN = respuesta;
+                        break;
+                    }
+                }
+            }
+        }
+
+
+        ViewBag.RespuestaCorrecta = respuestaCorrecta;
+        ViewBag.RespuestaCorrectaYN = respuestaCorrectaYN;
+       
+        return View("Respuesta");
+    }
+
+
+    public IActionResult Juego()
+    {
+        return View("Jugar");
+    }
+
+
+    public IActionResult Respuesta()
+    {
+        return View("Jugar");
     }
 }
