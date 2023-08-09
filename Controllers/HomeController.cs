@@ -96,36 +96,14 @@ public class HomeController : Controller
     {
         bool respuestaCorrecta = Juego.VerificarRespuesta(idPregunta, idRespuesta);
 
-
-        //(Opcional)
-        Respuesta respuestaCorrectaYN = null;
-
-
-        if (!respuestaCorrecta)
-        {
-            Pregunta pregunta = _preguntas.SingleOrDefault(p => p.IdPregunta == idPregunta);
-            if (pregunta != null)
-            {
-                foreach (Respuesta respuesta in _respuestas)
-                {
-                    if (respuesta.IdRespuesta == pregunta.IdRespuestaCorrecta)
-                    {
-                        respuestaCorrectaYN = respuesta;
-                        break;
-                    }
-                }
-            }
-        }
-
-
         ViewBag.RespuestaCorrecta = respuestaCorrecta;
-        ViewBag.RespuestaCorrectaYN = respuestaCorrectaYN;
-       
+
         return View("Respuesta");
     }
 
 
-    public IActionResult Juego()
+
+    public IActionResult IniciarJuego()
     {
         return View("Jugar");
     }
