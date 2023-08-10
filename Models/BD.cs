@@ -86,7 +86,7 @@ public static class BD
         {
             foreach (Pregunta pregunta in _ListadoPreguntas)
             {
-                string SQL = "SELECT * FROM Respuestas WHERE IdPregunta = @idPregunta;";
+                string SQL = "SELECT * FROM Respuestas WHERE IdPregunta = @idPregunta";
                 List<Respuesta> respuestasPregunta = db.Query<Respuesta>(SQL, new { idPregunta = pregunta.IdPregunta }).ToList();
                 _ListadoRespuestas.AddRange(respuestasPregunta);
             }
