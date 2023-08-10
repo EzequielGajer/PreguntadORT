@@ -113,4 +113,17 @@ public class HomeController : Controller
     {
         return View("Jugar");
     }
+
+    public IActionResult HighScores()
+    {
+        List<Puntaje> puntajes = BD.ObtenerPuntajes();
+        return View("HighScores", puntajes);
+    }
+
+    [HttpPost]
+    public IActionResult InsertarPuntaje(string username, int puntaje)
+    {
+        BD.InsertarPuntaje(username, puntaje);
+        return View("HighScores");
+    }
 }

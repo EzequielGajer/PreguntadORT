@@ -93,4 +93,23 @@ public static class BD
         }
         return _ListadoRespuestas;
     }
+
+    public static void InsertarPuntaje(string username, int puntaje)
+    {
+        using (SqlConnection db = new SqlConnection(_ConnectionString))
+        {
+            string SQL = "INSERT INTO Puntajes (FechaHora, Username, Puntaje) VALUES (@FechaHora, @Username, @Puntaje)";
+            db.Execute(SQL, new { FechaHora = DateTime.Now, Username = username, Puntaje = puntaje });
+        }
+    }
+
+    public static List<Puntaje> ObtenerPuntajes()
+    {
+        using (SqlConnection db = new SqlConnection(_ConnectionString))
+        {
+            string SQL = "SELECT TOP 10 * FROM Puntajes ORDER BY Puntaje DESC";
+            return db.Query<Puntaje>(SQL).ToList();
+        }
+    }
+
 }
