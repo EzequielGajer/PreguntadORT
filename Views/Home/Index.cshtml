@@ -1,8 +1,26 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Index";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/Index.css">
+    <link rel="shortcut icon" href="https://w7.pngwing.com/pngs/9/393/png-transparent-trivia-crack-no-ads-quiz-logo-game-android-game-smiley-crack-thumbnail.png" type="image/x-icon">
+    <title>Mi Juego de Preguntas</title>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <img src="https://w7.pngwing.com/pngs/9/393/png-transparent-trivia-crack-no-ads-quiz-logo-game-android-game-smiley-crack-thumbnail.png" alt="Logo del Juego" class="logo">
+        </div>
+        <h1 class="header-title">¡Bienvenido a <span class="highlight">Preguntas Pro</span>!</h1>
+        <p class="header-subtitle">Pon a prueba tus conocimientos y diviértete al máximo.</p>
+    </header>
+    <main class="main">
+        <a href='@Url.Action("ConfigurarJuego", "Home")' class="start-button">Comenzar</a>
+    </main>
+</body>
+</html>
