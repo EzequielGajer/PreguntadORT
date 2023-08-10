@@ -103,7 +103,7 @@ public class HomeController : Controller
 
 
 
-    public IActionResult IniciarJuego()
+    public IActionResult Juego()
     {
         return View("Jugar");
     }
