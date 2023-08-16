@@ -105,11 +105,13 @@ public static class BD
 
     public static List<Puntaje> ObtenerPuntajes()
     {
-        using (SqlConnection db = new SqlConnection(_ConnectionString))
-        {
-            string SQL = "SELECT TOP 10 * FROM Puntajes ORDER BY Puntaje DESC";
-            return db.Query<Puntaje>(SQL).ToList();
-        }
-    }
+        List<Puntaje> _listadoPuntajes = new List<Puntaje>();
 
+        using(SqlConnection db = new SqlConnection(_ConnectionString))
+        {
+            string SQL = "SELECT TOP 8 * FROM Puntajes order by Puntos desc";
+            _listadoPuntajes = db.Query<Puntaje>(SQL).ToList();
+        }
+        return _listadoPuntajes;
+    }
 }

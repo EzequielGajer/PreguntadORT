@@ -1,32 +1,32 @@
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Puntajes";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1 class="text-center mt-5" style="font-size: 100px; color:#a58cce;">CLASIFICACIÓN</h1>
 
-@model List<Puntaje>
-
-<h1>High Scores</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Username</th>
-            <th>Puntaje</th>
-            <th>Fecha y Hora</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var puntaje in Model)
-        {
-            <tr>
-                <td>@puntaje.Username</td>
-                <td>@puntaje.Puntos</td>
-                <td>@puntaje.FechaHora.ToString("yyyy-MM-dd HH:mm:ss")</td>
+<div class="text-center" style="margin: 0;">
+    <table class="table points rounded">
+        <thead class="thead">
+            <tr>                
+                <th scope="col">Usuario</th>
+                <th scope="col">Puntos</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Tiempo</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody >
+            
+@foreach (Puntaje punt in @ViewBag.listaPuntajes)
+            {
+                <tr class="filaTablaUsuario">
+                
+                    <th scope="row">@punt.UserName</th>
+                    <td>@punt.Puntos</td>
+                    <td>@punt.FechaHora</td>   
+                    <td>@punt.Tiempo segundos</td>
+                       
+                </tr> 
+            }           
+        </tbody>
+    </table>
+</div>

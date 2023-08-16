@@ -71,4 +71,11 @@ public static class Juego
 
         return esCorrecta;         
     }
+
+    public static int PuntajeActual
+    {
+        get{ return _puntajeActual;}
+        set{_puntajeActual = value;}
+    }
+
 }
