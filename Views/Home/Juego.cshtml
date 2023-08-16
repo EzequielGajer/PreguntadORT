@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Jugar";
+    ViewData["Title"] = "Juego";
 }
 
 <!DOCTYPE html>
@@ -18,28 +18,23 @@
                 <img src="https://w7.pngwing.com/pngs/9/393/png-transparent-trivia-crack-no-ads-quiz-logo-game-android-game-smiley-crack-thumbnail.png" alt="Logo del Juego" class="logo">
             </div>
             <div class="user-score">
-                <span class="user-label">Usuario:</span> JohnDoe - <span class="score-label">Puntaje:</span> 120
+                <span class="user-label">Usuario:</span> @ViewBag.Username - <span class="score-label">Puntaje:</span> @ViewBag.PuntajeActual
             </div>
         </header>
         <main class="main">
             <div class="question">
-                <h2>Pregunta 1</h2>
-                <p>¿En qué año ocurrió el descubrimiento de América?</p>
-                <img src="https://concepto.de/wp-content/uploads/2020/02/america-limite-cabo-de-hornos-oceano-pacifico-atlantico-e1582057363859.jpg" alt="Pregunta 1" class="question-image">
+                <p>@ViewBag.Pregunta</p>
+                <img src="@ViewBag.Foto" class="question-image">
             </div>
             <div class="answers">
-                <a href="respuestaCorrecta.html" class="answer-button">
-                    1492
-                </a>
-                <a href="respuestaIncorrecta.html" class="answer-button">
-                    1521
-                </a>
-                <a href="respuestaIncorrecta.html" class="answer-button">
-                    1776
-                </a>
-                <a href="respuestaIncorrecta.html" class="answer-button">
-                    1812
-                </a>
+                @foreach(Respuesta recorrerRespuestas in ViewBag.Respuestas)
+                {
+                    <a href='@Url.Action("VerificarRespuesta", "Home", new {IdPregunta = @recorrerRespuestas.IdPregunta ,IdRespuesta = @recorrerRespuestas.IdRespuesta, IdDificultad = @ViewBag.Dificultad})'>
+                        <p class="fuente2 text-center resp">
+                            @recorrerRespuestas.Contenido
+                        </p>
+                    </a>
+                }
             </div>
         </main>
     </div>

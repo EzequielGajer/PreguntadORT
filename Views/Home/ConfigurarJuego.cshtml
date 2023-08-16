@@ -20,33 +20,33 @@
     </header>
     <main class="main">
         <div class="decorative-shapes"></div>
-        <form class="config-form">
+        <form action='@Url.Action("Comenzar", "Home")' method="get" class="config-form">
             <div class="form-group">
                 <label for="username">Nombre de Usuario:</label>
-                <input type="text" id="username" class="input" placeholder="Ingresa tu nombre de usuario">
+                <input type="text" id="username" required autocomplete="off"class="input" placeholder="Ingresa tu nombre de usuario">
             </div>
             <div class="form-group">
                 <label for="category-select">Selecciona una Categoría:</label>
                 <select id="category-select" class="input">
-                    <option value="historia">Historia</option>
-                    <option value="geografia">Geografía</option>
-                    <option value="deportes">Deportes</option>
-                    <option value="entretenimiento">Musica</option>
-                    <option value="entretenimiento">Matematica</option>
+                @foreach (Categoria recorrerCategorias in ViewBag.Categorias)
+                {
+                    <option value="@recorrerCategorias.IdCategoria" required>@recorrerCategorias.Nombre</option>
+                } 
                 </select>
             </div>
             <div class="form-group">
                 <label for="difficulty-select">Elige la Dificultad:</label>
                 <select id="difficulty-select" class="input">
-                    <option value="facil">Fácil</option>
-                    <option value="intermedio">Intermedio</option>
-                    <option value="dificil">Difícil</option>
+                @foreach (Dificultad recorrerDificultades in ViewBag.Dificultades)
+                {
+                    <option value="@recorrerDificultades.IdDificultad" required>@recorrerDificultades.Nombre</option>
+                } 
                 </select>
             </div>
 
 
 
-            <a class="start-button" href='@Url.Action("Juego", "Home")'>Comenzar <span class="arrow">➜</span></a>
+            <a class="start-button" href='@Url.Action("Comenzar", "Home")'>Comenzar <span class="arrow">➜</span></a>
 
         </form>
     </main>

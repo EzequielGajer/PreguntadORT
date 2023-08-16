@@ -15,6 +15,12 @@ public static class Juego
         _respuestas.Clear();   
     }
 
+    public static string username
+    {
+        get{ return _username;}
+        set{_username = value;}
+    }
+
     public static List<Categoria> ObtenerCategorias()
     {
         return BD.ObtenerCategorias();
@@ -76,6 +82,12 @@ public static class Juego
     {
         get{ return _puntajeActual;}
         set{_puntajeActual = value;}
+    }
+
+    public static int CantidadPreguntasCorrectas
+    {
+        get{ return _cantidadPreguntasCorrectas;}
+        set{_cantidadPreguntasCorrectas = value;}
     }
 
 }
