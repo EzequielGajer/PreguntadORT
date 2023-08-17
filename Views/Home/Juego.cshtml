@@ -29,11 +29,9 @@
             <div class="answers">
                 @foreach(Respuesta recorrerRespuestas in ViewBag.Respuestas)
                 {
-                    <a href='@Url.Action("VerificarRespuesta", "Home", new {IdPregunta = @recorrerRespuestas.IdPregunta ,IdRespuesta = @recorrerRespuestas.IdRespuesta, IdDificultad = @ViewBag.Dificultad})'>
-                        <p class="fuente2 text-center resp">
-                            @recorrerRespuestas.Contenido
-                        </p>
-                    </a>
+                    <a href='@Url.Action("VerificarRespuesta", "Home", new {idRespuesta = @recorrerRespuestas.IdRespuesta, idPregunta = @ViewBag.Pregunta.IdPregunta})'>
+                
+                    </a>    
                 }
             </div>
         </main>

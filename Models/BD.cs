@@ -34,65 +34,33 @@ public static class BD
         return _ListadoDificultades;
     }
 
-
-    private static List<Pregunta> _ListadoPreguntas = new List<Pregunta>();
-
-
-    public static List<Pregunta> ObtenerPreguntas(int dificultad, int categoria)
+    public static List<Pregunta> ObtenerPreguntas(int IdDificultad, int IdCategoria)
     {
-        using (SqlConnection db = new SqlConnection(_ConnectionString))
+        string SQL = "SELECT * FROM Preguntas WHERE IdCategoria = @IdCategoria OR @IdCategoria = -1 AND IdDificultad = @IdDificultad OR @IdDificultad = -1";
+
+        List<Pregunta> _ListadoPreguntas = new List<Pregunta>{}; 
+        using(SqlConnection db = new SqlConnection(_ConnectionString))
         {
-            string SQL = "";
-
-
-            if (dificultad == -1 && categoria == -1)
-            {
-                // Si se recibió -1 para ambas categorías, traer todas las preguntas
-                SQL = "SELECT * From Preguntas";
-                _ListadoPreguntas = db.Query<Pregunta>(SQL).ToList();
-                return _ListadoPreguntas;
-            }
-            else if (dificultad != -1 && categoria == -1)
-            {
-                // Si se recibió -1 para categoría pero un ID válido para dificultad, traer preguntas de todas las categorías que tengan esa dificultad
-                SQL = "SELECT * FROM Preguntas WHERE IdDificultad = @Dificultad";
-                _ListadoPreguntas = db.Query<Pregunta>(SQL, new { Dificultad = dificultad}).ToList();
-                return _ListadoPreguntas;
-            }
-            else if (dificultad == -1 && categoria != -1)
-            {
-                // Si se recibió -1 para dificultad pero un ID válido para categoría, traer preguntas de todas las dificultades que pertenezcan a esa categoría
-                SQL = "SELECT * FROM Preguntas WHERE IdCategoria = @Categoria";
-                _ListadoPreguntas = db.Query<Pregunta>(SQL, new { Categoria = categoria}).ToList();
-                return _ListadoPreguntas;
-            }
-            else
-            {
-                // Si se recibieron IDs válidos para ambas categorías, traer preguntas que tengan esa dificultad y categoría
-                SQL = "SELECT * FROM Preguntas WHERE IdDificultad = @Dificultad AND IdCategoria = @Categoria";
-                _ListadoPreguntas = db.Query<Pregunta>(SQL, new { Dificultad = dificultad, Categoria = categoria}).ToList();
-                return _ListadoPreguntas;
-            }
+          _ListadoPreguntas = db.Query<Pregunta>(SQL, new{IdCategoria = IdCategoria, IdDificultad = IdDificultad}).ToList();
         }
+        return _ListadoPreguntas;
     }
 
 
-    private static List<Respuesta> _ListadoRespuestas = new List<Respuesta>();
-
-
-    public static List<Respuesta> ObtenerRespuestas(List<Pregunta> _ListadoPreguntas)
-    {
-        using (SqlConnection db = new SqlConnection(_ConnectionString))
-        {
-            foreach (Pregunta pregunta in _ListadoPreguntas)
+    public static List<Respuesta> ObtenerRespuestas(List<Pregunta> preguntas){
+        
+            List<Respuesta> _ListadoRespuestas = new List<Respuesta>();
+            
+            foreach(Pregunta recorrerPreguntas in preguntas)
             {
-                string SQL = "SELECT * FROM Respuestas WHERE IdPregunta = @idPregunta";
-                List<Respuesta> respuestasPregunta = db.Query<Respuesta>(SQL, new { idPregunta = pregunta.IdPregunta }).ToList();
-                _ListadoRespuestas.AddRange(respuestasPregunta);
+                string SQL = "SELECT * FROM Respuestas WHERE IdPregunta = @pIdPregunta";
+                using(SqlConnection db = new SqlConnection(_ConnectionString))
+                {
+                    _ListadoRespuestas.AddRange(db.Query<Respuesta>(SQL, new{pIdPregunta = recorrerPreguntas.IdPregunta}));
+                }
             }
+            return _ListadoRespuestas;
         }
-        return _ListadoRespuestas;
-    }
 
     public static void InsertarPuntaje(string username, int puntaje)
     {

@@ -5,7 +5,25 @@ public static class Juego
     private static int _cantidadPreguntasCorrectas = 0;
     private static List<Pregunta> _preguntas = new List<Pregunta>();
     private static List<Respuesta> _respuestas = new List<Respuesta>();
-  
+
+    public static string username
+    {
+        get{ return _username;}
+        set{_username = value;}
+    }
+
+    public static int PuntajeActual
+    {
+        get{ return _puntajeActual;}
+        set{_puntajeActual = value;}
+    }
+
+    public static int CantidadPreguntasCorrectas
+    {
+        get{ return _cantidadPreguntasCorrectas;}
+        set{_cantidadPreguntasCorrectas = value;}
+    }
+
     public static void InicializarJuego()
     {
         _username = "";
@@ -13,12 +31,6 @@ public static class Juego
         _cantidadPreguntasCorrectas = 0;
         _preguntas.Clear();      
         _respuestas.Clear();   
-    }
-
-    public static string username
-    {
-        get{ return _username;}
-        set{_username = value;}
     }
 
     public static List<Categoria> ObtenerCategorias()
@@ -32,62 +44,62 @@ public static class Juego
     }
 
     public static void CargarPartida(string username, int dificultad, int categoria)
-    {
-        _username = username;
-        _preguntas = BD.ObtenerPreguntas(dificultad, categoria);
-        _respuestas = BD.ObtenerRespuestas(_preguntas);
-    }
+{
+    _preguntas = BD.ObtenerPreguntas(dificultad, categoria);
+    _respuestas = BD.ObtenerRespuestas(_preguntas);
+    _username = username;
+}
+
 
     public static Pregunta ObtenerProximaPregunta()
-    {            
+    {
         if (_preguntas.Count() > 0)
         {
-            Random random = new Random();
-            int Azar = random.Next(0, _preguntas.Count);
-            return _preguntas[Azar];
+            Pregunta preguntaActual = _preguntas[0];
+            _preguntas.RemoveAt(0);
+            return preguntaActual;
         }
-        return null;            
+    return null;
     }
+
 
     public static List<Respuesta> ObtenerProximasRespuestas(int idPregunta)
     {
-        List<Respuesta> respuestasPregunta = _respuestas.Where(respuesta => respuesta.IdPregunta == idPregunta).ToList();
-        return respuestasPregunta;
+        List<Respuesta> listaObtenerProximasRespuestas = new List<Respuesta>();
+
+          foreach (Respuesta recorrerRespuestas in _respuestas)
+          {
+            
+            if (recorrerRespuestas.IdPregunta == idPregunta)
+            {
+              listaObtenerProximasRespuestas.Add(recorrerRespuestas);
+            }
+
+          }
+           
+           return listaObtenerProximasRespuestas;
     }
 
     public static bool VerificarRespuesta(int idPregunta, int idRespuesta)
     {    
-        bool esCorrecta = false;
-
-        Pregunta preguntaSeleccionada = _preguntas.FirstOrDefault(p => p.IdPregunta == idPregunta);
-        Respuesta respuestaSeleccionada = _respuestas.FirstOrDefault(r => r.IdRespuesta == idRespuesta);
-
-        if (preguntaSeleccionada != null && respuestaSeleccionada != null)
-        {
-            esCorrecta = respuestaSeleccionada.Correcta;
-
-            if (esCorrecta)
-            {
-                _puntajeActual += 500;
-                _cantidadPreguntasCorrectas++;
+        for (int i = 0; i < _preguntas.Count();i++){
+            if(_preguntas[i].IdPregunta == idPregunta){
+                _preguntas.RemoveAt(i);
             }
-
-            _preguntas.Remove(preguntaSeleccionada);
         }
+                        
+        foreach (Respuesta recorrerRespuestas in _respuestas){
+                if(recorrerRespuestas.IdRespuesta == idRespuesta){
+                    if(recorrerRespuestas.Correcta == true){
 
-        return esCorrecta;         
-    }
-
-    public static int PuntajeActual
-    {
-        get{ return _puntajeActual;}
-        set{_puntajeActual = value;}
-    }
-
-    public static int CantidadPreguntasCorrectas
-    {
-        get{ return _cantidadPreguntasCorrectas;}
-        set{_cantidadPreguntasCorrectas = value;}
+                        _puntajeActual += 500;
+                        _cantidadPreguntasCorrectas++;                                         
+                        return true;
+                    }                    
+                }
+            }
+            
+        return false;                   
     }
 
 }
