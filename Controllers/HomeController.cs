@@ -50,9 +50,6 @@ public class HomeController : Controller
 
     public IActionResult Jugar()
     {
-   /*     ViewBag.Cantidad = Juego.preguntas.Count;
-        return View("ssssss");*/
-
         Pregunta PreguntaActual = Juego.ObtenerProximaPregunta();
         
         if (PreguntaActual == null)
@@ -61,6 +58,9 @@ public class HomeController : Controller
         }
     
         List<Respuesta> respuestas = Juego.ObtenerProximasRespuestas(PreguntaActual.IdPregunta);
+        ViewBag.Foto = Juego.ObtenerProximaPregunta().Foto;
+        ViewBag.Dificultad = Juego.ObtenerProximaPregunta().IdDificultad;
+        ViewBag.Enunciado = Juego.ObtenerProximaPregunta().Enunciado;
         ViewBag.Pregunta = PreguntaActual;
         ViewBag.Respuestas = respuestas;
         return View("Jugar");
@@ -91,9 +91,26 @@ public class HomeController : Controller
     {
         bool respuestaCorrecta = Juego.VerificarRespuesta(idPregunta, idRespuesta);
 
-        ViewBag.RespuestaCorrecta = respuestaCorrecta;
+        if (respuestaCorrecta)
+        {
+            return View("RespuestaCorrecta");
+        }
+        else
+        {
+            return View("RespuestaIncorrecta");
+        }
+    }
 
-        return View("Respuesta");
+    public IActionResult RespuestaCorrecta()
+    {
+        ViewBag.MensajeRespuestaCorrecta = "¡Respuesta Correcta!";
+        return View("RespuestaCorrecta");
+    }
+
+    public IActionResult RespuestaIncorrecta()
+    {
+        ViewBag.MensajeRespuestaCorrecta = "¡Respuesta Incorrecta!";
+        return View("RespuestaIncorrecta");
     }
 
     public IActionResult HighScores()

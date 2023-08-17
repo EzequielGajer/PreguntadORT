@@ -23,14 +23,15 @@
         </header>
         <main class="main">
             <div class="question">
-                <p>@ViewBag.Pregunta</p>
+                <p>Pregunta N° @ViewBag.Pregunta.IdPregunta</p>
+                <p>@ViewBag.Enunciado</p>
                 <img src="@ViewBag.Foto" class="question-image">
             </div>
             <div class="answers">
                 @foreach(Respuesta recorrerRespuestas in ViewBag.Respuestas)
                 {
-                    <a href='@Url.Action("VerificarRespuesta", "Home", new {idRespuesta = @recorrerRespuestas.IdRespuesta, idPregunta = @ViewBag.Pregunta.IdPregunta})'>
-                
+                    <a href='@Url.Action("VerificarRespuesta", "Home", new {IdPregunta = @recorrerRespuestas.IdPregunta ,IdRespuesta = @recorrerRespuestas.IdRespuesta, IdDificultad = @ViewBag.Dificultad})'>
+                        <p>@recorrerRespuestas.Contenido</p>
                     </a>    
                 }
             </div>
