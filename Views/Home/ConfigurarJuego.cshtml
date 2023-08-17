@@ -23,11 +23,11 @@
         <form action='@Url.Action("Comenzar", "Home")' method="get" class="config-form">
             <div class="form-group">
                 <label for="username">Nombre de Usuario:</label>
-                <input type="text" id="username" required autocomplete="off"class="input" placeholder="Ingresa tu nombre de usuario">
+                <input type="text" name="username" id="username" required autocomplete="off"class="input" placeholder="Ingresa tu nombre de usuario">
             </div>
             <div class="form-group">
                 <label for="category-select">Selecciona una Categoría:</label>
-                <select id="category-select" class="input">
+                <select name= "categoria" id="category-select" class="input">
                 @foreach (Categoria recorrerCategorias in ViewBag.Categorias)
                 {
                     <option value="@recorrerCategorias.IdCategoria" required>@recorrerCategorias.Nombre</option>
@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label for="difficulty-select">Elige la Dificultad:</label>
-                <select id="difficulty-select" class="input">
+                <select name= "dificultad" id="difficulty-select" class="input">
                 @foreach (Dificultad recorrerDificultades in ViewBag.Dificultades)
                 {
                     <option value="@recorrerDificultades.IdDificultad" required>@recorrerDificultades.Nombre</option>
@@ -44,7 +44,7 @@
                 </select>
             </div>
 
-            <a class="start-button" href='@Url.Action("Comenzar", "Home")'>Comenzar <span class="arrow">➜</span></a>
+            <button type="submit" class="start-button" >Comenzar <span class="arrow">➜</span></button>
 
         </form>
     </main>

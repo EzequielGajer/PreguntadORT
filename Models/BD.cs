@@ -36,7 +36,7 @@ public static class BD
 
     public static List<Pregunta> ObtenerPreguntas(int IdDificultad, int IdCategoria)
     {
-        string SQL = "SELECT * FROM Preguntas WHERE IdCategoria = @IdCategoria OR @IdCategoria = -1 AND IdDificultad = @IdDificultad OR @IdDificultad = -1";
+        string SQL = "SELECT * FROM Preguntas WHERE (IdCategoria = @IdCategoria OR @IdCategoria = -1) AND (IdDificultad = @IdDificultad OR @IdDificultad = -1)";
 
         List<Pregunta> _ListadoPreguntas = new List<Pregunta>{}; 
         using(SqlConnection db = new SqlConnection(_ConnectionString))

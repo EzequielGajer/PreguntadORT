@@ -5,13 +5,15 @@ public class Categoria
     public string Foto { get; set; }
 
 
-    //public Categoria() { }
+    public Categoria() 
+    { 
 
+    }
 
-    //public Categoria(int idCategoria, string nombre, string foto)
-    //{
-        //IdCategoria = idCategoria;
-        //Nombre = nombre;
-        //Foto = foto;
-    //}
+    public Categoria(int idCategoria, string nombre, string foto)
+    {
+        IdCategoria = idCategoria;
+        Nombre = nombre;
+        Foto = foto;
+    }
 }

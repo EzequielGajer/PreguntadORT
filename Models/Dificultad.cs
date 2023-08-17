@@ -4,12 +4,12 @@ public class Dificultad
     public string Nombre { get; set; }
 
 
-    //public Dificultad() { }
+    public Dificultad() { }
 
 
-    //public Dificultad(int idDificultad, string nombre)
-    //{
-        //IdDificultad = idDificultad;
-        //Nombre = nombre;
-    //}
+    public Dificultad(int idDificultad, string nombre)
+    {
+        IdDificultad = idDificultad;
+        Nombre = nombre;
+    }
 }

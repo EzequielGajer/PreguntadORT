@@ -5,6 +5,12 @@ public static class Juego
     private static int _cantidadPreguntasCorrectas = 0;
     private static List<Pregunta> _preguntas = new List<Pregunta>();
     private static List<Respuesta> _respuestas = new List<Respuesta>();
+   
+    public static List<Pregunta>  preguntas
+    {
+        get{ return _preguntas;}
+  
+    }
 
     public static string username
     {
@@ -46,6 +52,7 @@ public static class Juego
     public static void CargarPartida(string username, int dificultad, int categoria)
 {
     _preguntas = BD.ObtenerPreguntas(dificultad, categoria);
+    Console.WriteLine(_preguntas.Count);
     _respuestas = BD.ObtenerRespuestas(_preguntas);
     _username = username;
 }
@@ -53,13 +60,18 @@ public static class Juego
 
     public static Pregunta ObtenerProximaPregunta()
     {
-        if (_preguntas.Count() > 0)
+        if(_preguntas.Count() != 0) 
         {
-            Pregunta preguntaActual = _preguntas[0];
-            _preguntas.RemoveAt(0);
-            return preguntaActual;
+            Random random = new Random();
+            int preguntaAleatoria = random.Next(0, _preguntas.Count);
+            return _preguntas[preguntaAleatoria];
+        } 
+        
+        else 
+        {
+            return null;
         }
-    return null;
+
     }
 
 

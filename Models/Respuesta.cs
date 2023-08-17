@@ -8,16 +8,18 @@ public class Respuesta
     public string Foto { get; set; }
 
 
-    //public Respuesta() { }
+    public Respuesta() 
+    { 
 
+    }
 
-    //public Respuesta(int idRespuesta, int idPregunta, int opcion, string contenido, bool correcta, string foto)
-    //{
-        //IdRespuesta = idRespuesta;
-        //IdPregunta = idPregunta;
-        //Opcion = opcion;
-        //Contenido = contenido;
-        //Correcta = correcta;
-        //Foto = foto;
-    //}
+    public Respuesta(int idRespuesta, int idPregunta, int opcion, string contenido, bool correcta, string foto)
+    {
+        IdRespuesta = idRespuesta;
+        IdPregunta = idPregunta;
+        Opcion = opcion;
+        Contenido = contenido;
+        Correcta = correcta;
+        Foto = foto;
+    }
 }

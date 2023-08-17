@@ -43,28 +43,37 @@ public class HomeController : Controller
     public IActionResult Comenzar(string username, int dificultad, int categoria)
     {
         Juego.CargarPartida(username, dificultad, categoria);
-        return RedirectToAction("Jugar" , "Home" );
+        
+        return RedirectToAction("Jugar" , "Home");
     }
 
 
     public IActionResult Jugar()
     {
-        Pregunta PreguntaActual = Juego.ObtenerProximaPregunta();
+   /*     ViewBag.Cantidad = Juego.preguntas.Count;
+        return View("ssssss");*/
 
-        if (PreguntaActual != null)
+        Pregunta PreguntaActual = Juego.ObtenerProximaPregunta();
+        
+        if (PreguntaActual == null)
         {
-            List<Respuesta> respuestas = Juego.ObtenerProximasRespuestas(PreguntaActual.IdPregunta);
-            ViewBag.Pregunta = PreguntaActual;
-            ViewBag.Respuestas = respuestas;
-            return View("Juego");
+            return View("Fin");
         }
     
-        return View("Fin");
+        List<Respuesta> respuestas = Juego.ObtenerProximasRespuestas(PreguntaActual.IdPregunta);
+        ViewBag.Pregunta = PreguntaActual;
+        ViewBag.Respuestas = respuestas;
+        return View("Jugar");
     }
 
 
 
     public IActionResult Privacy()
+    {
+        return View();
+    }
+
+    public IActionResult Fin()
     {
         return View();
     }
