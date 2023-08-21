@@ -8,6 +8,7 @@ public static class BD
 
 
     private static List<Categoria> _ListadoCategorias = new List<Categoria>();
+    private static List<Respuesta> _ListaRespuestas = new List<Respuesta>();
 
 
     public static List<Categoria> ObtenerCategorias()
@@ -61,6 +62,17 @@ public static class BD
             }
             return _ListadoRespuestas;
         }
+
+    //public static List<Respuesta> ObtenerRespuestaCorrecta(int IdPregunta)
+    //{
+
+        //using(SqlConnection db = new SqlConnection(_ConnectionString))
+            //{
+                //string SQL = "SELECT * FROM Respuestas WHERE IdPregunta = @pIdPregunta";
+                //_ListaRespuestas = db.Query<Respuesta>(SQL, new{pIdPregunta = IdPregunta}).ToList();
+            //}
+            //return _ListaRespuestas;
+    //}
 
     public static void InsertarPuntaje(string username, int puntaje)
     {

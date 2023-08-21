@@ -1,9 +1,8 @@
-/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #ffffff; /* Fondo blanco */
+    background-color: #ffffff; 
 }
 
 .container {
@@ -12,14 +11,14 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden; /* Evita el scroll vertical */
+    overflow: hidden; 
 }
 
 canvas {
     position: absolute;
     top: 0;
     left: 0;
-    pointer-events: none; /* Evita que los confetis afecten a los clics */
+    pointer-events: none; 
 }
 
 .content {
@@ -27,6 +26,11 @@ canvas {
     position: relative;
     z-index: 1;
     padding: 2em;
+    background-color: rgba(255, 255, 255, 0.9); 
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); 
+    max-width: 80%; 
+    margin: 0 auto;
 }
 
 h1 {

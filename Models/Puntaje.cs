@@ -1,49 +1,23 @@
- public class Puntaje{
-        
-        private int _idPuntaje, _puntos;
+public class Puntaje
+{
+    public int IdPuntaje { get; set; }
+    public string UserName { get; set; }
 
-        private string _userName;
+    public int Puntos { get; set; }
+    public DateTime FechaHora { get; set; }
+    public int Tiempo { get; set; }
 
-        private DateTime _fechaHora;
+    public Puntaje()
+    {
 
-        private int _tiempo;
+    }
 
-        public Puntaje(int ppuntos,string puserName,DateTime pfechaHora, int ptiempo){
-            _puntos = ppuntos;
-            _userName = puserName;
-            _fechaHora = pfechaHora;
-            _tiempo = ptiempo;
-        }
-
-        public Puntaje(){
-            _puntos = 0;
-            _userName = "";
-            _fechaHora = DateTime.MinValue;
-            _tiempo = 0;
-        }
-
-        public int IdPuntaje{
-            get{return _idPuntaje;}
-            set{_idPuntaje = value;}
-        }
-
-        public int Puntos{
-            get{return _puntos;}
-            set{_puntos = value;}
-        }
-
-        public string UserName{
-            get{return _userName;}
-            set{_userName = value;}
-        }
-
-        public DateTime FechaHora{
-            get{return _fechaHora;}
-            set{_fechaHora = value;}
-        }
-
-        public int Tiempo{
-            get{return _tiempo;}
-            set{_tiempo = value;}
-        }
- }
+    public Puntaje(int idPuntaje, string username, int puntos, DateTime fechaHora, int tiempo)
+    {
+        IdPuntaje = idPuntaje;
+        UserName = username;
+        Puntos = puntos;
+        FechaHora = fechaHora;
+        Tiempo = tiempo;
+    }
+}

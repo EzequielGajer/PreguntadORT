@@ -43,28 +43,64 @@ public class HomeController : Controller
     public IActionResult Comenzar(string username, int dificultad, int categoria)
     {
         Juego.CargarPartida(username, dificultad, categoria);
-        
-        return RedirectToAction("Jugar" , "Home");
+
+        return RedirectToAction("Jugar", "Home");
     }
 
 
     public IActionResult Jugar()
     {
         Pregunta PreguntaActual = Juego.ObtenerProximaPregunta();
-        
+
+        ViewBag.Username = Juego.username;
+        ViewBag.Puntaje = Juego.PuntajeActual;
+
         if (PreguntaActual == null)
         {
             return View("Fin");
         }
-    
+
         List<Respuesta> respuestas = Juego.ObtenerProximasRespuestas(PreguntaActual.IdPregunta);
-        ViewBag.Foto = Juego.ObtenerProximaPregunta().Foto;
-        ViewBag.Dificultad = Juego.ObtenerProximaPregunta().IdDificultad;
-        ViewBag.Enunciado = Juego.ObtenerProximaPregunta().Enunciado;
+        ViewBag.Foto = PreguntaActual.Foto; // Usar PreguntaActual en lugar de ObtenerProximaPregunta()
+        ViewBag.Dificultad = PreguntaActual.IdDificultad;
+        ViewBag.Enunciado = PreguntaActual.Enunciado;
         ViewBag.Pregunta = PreguntaActual;
         ViewBag.Respuestas = respuestas;
         return View("Jugar");
     }
+
+
+    public IActionResult VerificarRespuesta(int idPregunta, int idRespuesta, int idDificultad)
+    {
+        Pregunta pregunta = Juego.ObtenerProximaPregunta();
+        List<Respuesta> _ListaRespuestas = Juego.ObtenerProximasRespuestas(pregunta.IdPregunta);
+
+        if (Juego.VerificarRespuesta(idPregunta, idRespuesta, idDificultad))
+        {
+            ViewBag.Puntaje = Juego.PuntajeActual;
+            ViewBag.Resultado = "La respuesta es Correcta!";
+        }
+        else
+        {
+            ViewBag.Puntaje = Juego.PuntajeActual;
+            ViewBag.Resultado = "La respuesta es Incorrecta!";
+
+            foreach (Respuesta recorrerRespuestas in _ListaRespuestas)
+            {
+                if (recorrerRespuestas.Correcta)
+                {
+                    ViewBag.RespuestaCorrecta = recorrerRespuestas.Contenido;
+                }
+            }
+        }
+
+        ViewBag.ContenidoRespuesta = _ListaRespuestas;
+        ViewBag.ContenidoPregunta = pregunta;
+
+        return View("Respuesta");
+
+    }
+
 
 
 
@@ -83,34 +119,6 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
-
-
-    [HttpPost]
-    public IActionResult VerificarRespuesta(int idPregunta, int idRespuesta)
-    {
-        bool respuestaCorrecta = Juego.VerificarRespuesta(idPregunta, idRespuesta);
-
-        if (respuestaCorrecta)
-        {
-            return View("RespuestaCorrecta");
-        }
-        else
-        {
-            return View("RespuestaIncorrecta");
-        }
-    }
-
-    public IActionResult RespuestaCorrecta()
-    {
-        ViewBag.MensajeRespuestaCorrecta = "¡Respuesta Correcta!";
-        return View("RespuestaCorrecta");
-    }
-
-    public IActionResult RespuestaIncorrecta()
-    {
-        ViewBag.MensajeRespuestaCorrecta = "¡Respuesta Incorrecta!";
-        return View("RespuestaIncorrecta");
     }
 
     public IActionResult HighScores()
