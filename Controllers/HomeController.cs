@@ -26,6 +26,7 @@ public class HomeController : Controller
     public IActionResult ConfigurarJuego()
     {
         Juego.InicializarJuego();
+        Juego.ReiniciarVidas();
 
 
         List<Categoria> categorias = Juego.ObtenerCategorias();
@@ -85,6 +86,13 @@ public class HomeController : Controller
         {
             ViewBag.Puntaje = Juego.PuntajeActual;
             ViewBag.Resultado = "La respuesta es Incorrecta!";
+
+            Juego.RestarVida();
+
+            if (Juego.ObtenerVidas() <= 0)
+            {
+                return View("Derrota");
+            }
 
             foreach (Respuesta recorrerRespuestas in Juego.ObtenerProximasRespuestas(idPregunta))
             {

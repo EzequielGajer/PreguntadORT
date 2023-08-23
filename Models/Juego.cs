@@ -6,6 +6,22 @@ public static class Juego
     private static List<Pregunta> _preguntas = new List<Pregunta>();
     private static List<Respuesta> _respuestas = new List<Respuesta>();
     private static List<Puntaje> _puntajes = new List<Puntaje>();
+    private static int _vidas = 3;
+
+    public static int ObtenerVidas()
+    {
+        return _vidas;
+    }
+
+    public static void RestarVida()
+    {
+        _vidas--;
+    }
+
+    public static void ReiniciarVidas()
+    {
+        _vidas = 3; 
+    }
 
     public static List<Pregunta> preguntas
     {
@@ -74,7 +90,7 @@ public static class Juego
         Pregunta preguntaSeleccionada = _preguntas[preguntaAleatoria];
 
         // Elimina la pregunta seleccionada solo si quedan más preguntas
-        if (_preguntas.Count > 1)
+        if (_preguntas.Count > 5)
         {
             _preguntas.RemoveAt(preguntaAleatoria);
         }

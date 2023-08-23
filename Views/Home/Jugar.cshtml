@@ -24,7 +24,7 @@
         </div>
         <div class="user-score">
             <span class="user-label">Usuario:</span> @ViewBag.Username - <span class="score-label">Puntaje:</span>
-            @ViewBag.Puntaje
+            @ViewBag.Puntaje - <span class="score-label">Vidas: @Juego.ObtenerVidas()</span>
         </div>
         <div class="timer-container">
             <span class="timer-icon">&#9200;</span>
@@ -89,7 +89,9 @@
                     clearInterval(interval);
                     timerElement.textContent = "¡Tiempo agotado!";
 
-                    window.location.href = '@Url.Action("RespuestaIncorrecta", "Home", new { idPregunta = ViewBag.Pregunta.IdPregunta })';
+                    const esUltimaPregunta = @ViewBag.EsUltimaPregunta;
+
+                    window.location.href = '@Url.Action("RespuestaIncorrecta", "Home")?idPregunta=@ViewBag.Pregunta.IdPregunta&esUltimaPregunta=' + esUltimaPregunta;
                 }
             }, 1000);
             const actualizarTimer = setInterval(() => {
