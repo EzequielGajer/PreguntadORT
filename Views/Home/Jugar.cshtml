@@ -52,8 +52,10 @@
     }
     else
     {
-        <p>No hay más preguntas.</p>
+        <a href='@Url.Action("VerificarRespuesta", "Home", new { idRespuesta = 0, idPregunta = @ViewBag.Pregunta.IdPregunta, idDificultad = @ViewBag.Dificultad })'
+    class="answer-button"></a>
     }
+    
 </main> <!-- Elimina este bloque </div> -->
 
     
@@ -89,9 +91,9 @@
                     clearInterval(interval);
                     timerElement.textContent = "¡Tiempo agotado!";
 
-                    const esUltimaPregunta = @ViewBag.EsUltimaPregunta;
+                    Juego.RestarVida();
 
-                    window.location.href = '@Url.Action("RespuestaIncorrecta", "Home")?idPregunta=@ViewBag.Pregunta.IdPregunta&esUltimaPregunta=' + esUltimaPregunta;
+                    window.location.href = '@Url.Action("RespuestaTiempoAgotado", "Home", new { idPregunta = @ViewBag.Pregunta.IdPregunta })';
                 }
             }, 1000);
             const actualizarTimer = setInterval(() => {

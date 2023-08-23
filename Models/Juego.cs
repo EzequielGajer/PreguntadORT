@@ -122,6 +122,21 @@ public static class Juego
         return listaObtenerProximasRespuestas;
     }
 
+    public static string ObtenerRespuestaCorrecta(int idPregunta)
+{
+    string respuestaCorrecta = string.Empty;
+
+    foreach (Respuesta recorrerRespuestas in Juego.ObtenerProximasRespuestas(idPregunta))
+            {
+                if (recorrerRespuestas.Correcta)
+                {
+                    respuestaCorrecta = recorrerRespuestas.Contenido;
+                    break;
+                }
+            }
+    return respuestaCorrecta;
+}
+
     public static bool VerificarRespuesta(int idPregunta, int idRespuesta, int idDificultad)
     {
         for (int i = 0; i < _preguntas.Count(); i++)

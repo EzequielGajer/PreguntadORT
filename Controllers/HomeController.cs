@@ -63,7 +63,7 @@ public class HomeController : Controller
         }
 
         List<Respuesta> respuestas = Juego.ObtenerProximasRespuestas(PreguntaActual.IdPregunta);
-        ViewBag.Foto = PreguntaActual.Foto; // Usar PreguntaActual en lugar de ObtenerProximaPregunta()
+        ViewBag.Foto = PreguntaActual.Foto; 
         ViewBag.Dificultad = PreguntaActual.IdDificultad;
         ViewBag.Enunciado = PreguntaActual.Enunciado;
         ViewBag.Pregunta = PreguntaActual;
@@ -73,68 +73,66 @@ public class HomeController : Controller
 
 
     public IActionResult VerificarRespuesta(int idPregunta, int idRespuesta, int idDificultad)
+{
+    Pregunta pregunta = Juego.ObtenerProximaPregunta();
+    List<Respuesta> _ListaRespuestas = Juego.ObtenerProximasRespuestas(pregunta.IdPregunta);
+
+    if (idRespuesta == 0)
     {
-        Pregunta pregunta = Juego.ObtenerProximaPregunta();
-        List<Respuesta> _ListaRespuestas = Juego.ObtenerProximasRespuestas(pregunta.IdPregunta);
+        ViewBag.Puntaje = Juego.PuntajeActual;
+        ViewBag.Resultado = "La respuesta es Incorrecta";
 
-        if (Juego.VerificarRespuesta(idPregunta, idRespuesta, idDificultad))
+        Juego.RestarVida();
+
+        if (Juego.ObtenerVidas() <= 0)
         {
-            ViewBag.Puntaje = Juego.PuntajeActual;
-            ViewBag.Resultado = "La respuesta es Correcta!";
-        }
-        else
-        {
-            ViewBag.Puntaje = Juego.PuntajeActual;
-            ViewBag.Resultado = "La respuesta es Incorrecta!";
-
-            Juego.RestarVida();
-
-            if (Juego.ObtenerVidas() <= 0)
-            {
-                return View("Derrota");
-            }
-
-            foreach (Respuesta recorrerRespuestas in Juego.ObtenerProximasRespuestas(idPregunta))
-            {
-                if (recorrerRespuestas.Correcta)
-                {
-                    ViewBag.RespuestaCorrecta = recorrerRespuestas.Contenido;
-                }
-            }
+            return View("Derrota");
         }
 
-        ViewBag.ContenidoRespuesta = _ListaRespuestas;
-        ViewBag.ContenidoPregunta = pregunta;
+        ViewBag.RespuestaCorrecta = Juego.ObtenerRespuestaCorrecta(idPregunta);
+    }
+    else if (Juego.VerificarRespuesta(idPregunta, idRespuesta, idDificultad))
+    {
+        ViewBag.Puntaje = Juego.PuntajeActual;
+        ViewBag.Resultado = "La respuesta es Correcta!";
+    }
+    else
+    {
+        ViewBag.Puntaje = Juego.PuntajeActual;
+        ViewBag.Resultado = "La respuesta es Incorrecta!";
 
-        if (Juego.ObtenerProximaPregunta() == null)
+        Juego.RestarVida();
+
+        if (Juego.ObtenerVidas() <= 0)
+        {
+            return View("Derrota");
+        }
+
+        ViewBag.RespuestaCorrecta = Juego.ObtenerRespuestaCorrecta(idPregunta);
+    }
+
+    ViewBag.ContenidoRespuesta = _ListaRespuestas;
+    ViewBag.ContenidoPregunta = pregunta;
+
+    if (Juego.ObtenerProximaPregunta() == null)
     {
         return View("Fin");
     }
 
     return View("Respuesta");
+}
 
-    }
 
-    public IActionResult RespuestaIncorrecta(int idPregunta, bool esUltimaPregunta)
-{
+    public IActionResult RespuestaTiempoAgotado(int idPregunta)
+    {
     ViewBag.Resultado = "La respuesta es Incorrecta!";
     ViewBag.Puntaje = Juego.PuntajeActual;
 
-    foreach (Respuesta recorrerRespuestas in Juego.ObtenerProximasRespuestas(idPregunta))
-            {
-                if (recorrerRespuestas.Correcta)
-                {
-                    ViewBag.RespuestaCorrecta = recorrerRespuestas.Contenido;
-                }
-            }
+    ViewBag.RespuestaCorrecta = Juego.ObtenerRespuestaCorrecta(idPregunta);
 
-    if (esUltimaPregunta)
-    {
-        return View("Fin");
+    return View("Respuesta");
     }
 
-    return View("Respuesta"); // Esta es la vista de respuesta incorrecta
-}
 
 
     public IActionResult Privacy()

@@ -11,10 +11,10 @@
     <div class="container">
         <div class="content">
             <h1>¡Oh no!</h1>
-            <p class="username">¡El Usuario Perdió!</p>
-            <p class="score">Puntaje Final: <span>450</span> puntos</p>
+            <p class="username">Usuario: <span>@Juego.username</span></p>
+            <p class="score">Puntaje Final: <span>@ViewBag.Puntaje</span> puntos</p>
             <p class="message">Perdiste. ¡No te preocupes, inténtalo de nuevo!</p>
-            <a href="ConfigurarJuego.html" class="play-again">Volver a Jugar</a>
+            <a href='@Url.Action("ConfigurarJuego","Home")' class="play-again">Volver a Jugar</a>
         </div>
     </div>
     <div class="background-animation"></div>
