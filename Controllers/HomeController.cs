@@ -50,10 +50,11 @@ public class HomeController : Controller
 
     public IActionResult Jugar()
     {
-        Pregunta PreguntaActual = Juego.ObtenerProximaPregunta();
-
         ViewBag.Username = Juego.username;
         ViewBag.Puntaje = Juego.PuntajeActual;
+
+        Pregunta PreguntaActual = Juego.ObtenerProximaPregunta();
+        ViewBag.EsUltimaPregunta = (Juego.ObtenerProximaPregunta() == null);
 
         if (PreguntaActual == null)
         {
@@ -85,7 +86,7 @@ public class HomeController : Controller
             ViewBag.Puntaje = Juego.PuntajeActual;
             ViewBag.Resultado = "La respuesta es Incorrecta!";
 
-            foreach (Respuesta recorrerRespuestas in _ListaRespuestas)
+            foreach (Respuesta recorrerRespuestas in Juego.ObtenerProximasRespuestas(idPregunta))
             {
                 if (recorrerRespuestas.Correcta)
                 {
@@ -97,11 +98,35 @@ public class HomeController : Controller
         ViewBag.ContenidoRespuesta = _ListaRespuestas;
         ViewBag.ContenidoPregunta = pregunta;
 
-        return View("Respuesta");
+        if (Juego.ObtenerProximaPregunta() == null)
+    {
+        return View("Fin");
+    }
+
+    return View("Respuesta");
 
     }
 
+    public IActionResult RespuestaIncorrecta(int idPregunta, bool esUltimaPregunta)
+{
+    ViewBag.Resultado = "La respuesta es Incorrecta!";
+    ViewBag.Puntaje = Juego.PuntajeActual;
 
+    foreach (Respuesta recorrerRespuestas in Juego.ObtenerProximasRespuestas(idPregunta))
+            {
+                if (recorrerRespuestas.Correcta)
+                {
+                    ViewBag.RespuestaCorrecta = recorrerRespuestas.Contenido;
+                }
+            }
+
+    if (esUltimaPregunta)
+    {
+        return View("Fin");
+    }
+
+    return View("Respuesta"); // Esta es la vista de respuesta incorrecta
+}
 
 
     public IActionResult Privacy()

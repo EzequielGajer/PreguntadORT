@@ -33,22 +33,30 @@
     </header>
     <hr>
     <main class="main">
+    @if (ViewBag.Pregunta != null)
+    {
         <div class="question">
             <h2>Pregunta @ViewBag.Pregunta.IdPregunta</h2>
             <p>@ViewBag.Enunciado</p>
             <img src="@ViewBag.Foto" class="question-image">
             <div class="answers">
-    @foreach (Respuesta recorrerRespuestas in ViewBag.Respuestas)
-    {
-        <a href='@Url.Action("VerificarRespuesta", "Home", new { idRespuesta = @recorrerRespuestas.IdRespuesta, idPregunta = @ViewBag.Pregunta.IdPregunta, idDificultad = @ViewBag.Dificultad })'
-            class="answer-button">
-            @recorrerRespuestas.Contenido
-        </a>
-    }
-</div>
-
+                @foreach (Respuesta recorrerRespuestas in ViewBag.Respuestas)
+                {
+                    <a href='@Url.Action("VerificarRespuesta", "Home", new { idRespuesta = @recorrerRespuestas.IdRespuesta, idPregunta = @ViewBag.Pregunta.IdPregunta, idDificultad = @ViewBag.Dificultad })'
+                        class="answer-button">
+                        @recorrerRespuestas.Contenido
+                    </a>
+                }
+            </div>
         </div>
-    </main>
+    }
+    else
+    {
+        <p>No hay más preguntas.</p>
+    }
+</main> <!-- Elimina este bloque </div> -->
+
+    
 
     <script>
 
@@ -81,6 +89,7 @@
                     clearInterval(interval);
                     timerElement.textContent = "¡Tiempo agotado!";
 
+                    window.location.href = '@Url.Action("RespuestaIncorrecta", "Home", new { idPregunta = ViewBag.Pregunta.IdPregunta })';
                 }
             }, 1000);
             const actualizarTimer = setInterval(() => {

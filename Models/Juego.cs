@@ -68,17 +68,23 @@ public static class Juego
     public static Pregunta ObtenerProximaPregunta()
     {
         if (_preguntas.Count() != 0)
+    {
+        Random random = new Random();
+        int preguntaAleatoria = random.Next(0, _preguntas.Count);
+        Pregunta preguntaSeleccionada = _preguntas[preguntaAleatoria];
+
+        // Elimina la pregunta seleccionada solo si quedan más preguntas
+        if (_preguntas.Count > 1)
         {
-            Random random = new Random();
-            int preguntaAleatoria = random.Next(0, _preguntas.Count);
-            Pregunta preguntaSeleccionada = _preguntas[preguntaAleatoria];
-            _preguntas.RemoveAt(preguntaAleatoria); // Elimina la pregunta seleccionada
-            return preguntaSeleccionada;
+            _preguntas.RemoveAt(preguntaAleatoria);
         }
-        else
-        {
-            return null;
-        }
+
+        return preguntaSeleccionada;
+    }
+    else
+    {
+        return null;
+    }
     }
 
 
