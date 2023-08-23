@@ -19,8 +19,8 @@ body {
 }
 
 .logo {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     border: 3px solid #ffcc00;
 }
@@ -48,7 +48,7 @@ body {
 
 .start-button {
     display: inline-block;
-    padding: 12px 36px;
+    padding: 22px 46px;
     background-color: #ffcc00;
     color: #fff;
     text-decoration: none;
