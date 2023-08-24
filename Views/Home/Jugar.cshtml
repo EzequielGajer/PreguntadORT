@@ -36,7 +36,7 @@
     @if (ViewBag.Pregunta != null)
     {
         <div class="question">
-            <h2>Pregunta @ViewBag.Pregunta.IdPregunta</h2>
+            <h2>Pregunta Actual</h2>
             <p>@ViewBag.Enunciado</p>
             <img src="@ViewBag.Foto" class="question-image">
             <div class="answers">
@@ -56,7 +56,7 @@
     class="answer-button"></a>
     }
     
-</main> <!-- Elimina este bloque </div> -->
+</main> 
 
     
 
@@ -100,7 +100,7 @@
             setTimeout(() => {
                 window.location.href = '@Url.Action("RespuestaTiempoAgotado", "Home", new { idPregunta = @ViewBag.Pregunta.IdPregunta })';
                 Juego.RestarVida();
-            }, duration * 1000); // Convertimos la duración a milisegundos
+            }, duration * 1000); 
                 
         }
 

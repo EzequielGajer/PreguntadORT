@@ -62,18 +62,7 @@ public static class BD
             }
             return _ListadoRespuestas;
         }
-
-    //public static List<Respuesta> ObtenerRespuestaCorrecta(int IdPregunta)
-    //{
-
-        //using(SqlConnection db = new SqlConnection(_ConnectionString))
-            //{
-                //string SQL = "SELECT * FROM Respuestas WHERE IdPregunta = @pIdPregunta";
-                //_ListaRespuestas = db.Query<Respuesta>(SQL, new{pIdPregunta = IdPregunta}).ToList();
-            //}
-            //return _ListaRespuestas;
-    //}
-
+        
     public static void InsertarPuntaje(string username, int puntaje)
     {
         using (SqlConnection db = new SqlConnection(_ConnectionString))

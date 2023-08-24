@@ -28,6 +28,7 @@
             <div class="form-group">
                 <label for="category-select">Selecciona una Categoría:</label>
                 <select name= "categoria" id="category-select" class="input">
+                <option value="-1">Todas las Categorías</option>
                 @foreach (Categoria recorrerCategorias in ViewBag.Categorias)
                 {
                     <option value="@recorrerCategorias.IdCategoria" required>@recorrerCategorias.Nombre</option>
@@ -37,6 +38,7 @@
             <div class="form-group">
                 <label for="difficulty-select">Elige la Dificultad:</label>
                 <select name= "dificultad" id="difficulty-select" class="input">
+                <option value="-1">Todas las Dificultades</option>
                 @foreach (Dificultad recorrerDificultades in ViewBag.Dificultades)
                 {
                     <option value="@recorrerDificultades.IdDificultad" required>@recorrerDificultades.Nombre</option>

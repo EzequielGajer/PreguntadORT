@@ -43,6 +43,15 @@ public class HomeController : Controller
 
     public IActionResult Comenzar(string username, int dificultad, int categoria)
     {
+        if (categoria == -1)
+        {
+            categoria = -1; 
+        }
+        if (dificultad == -1)
+        {
+            dificultad = -1; 
+        }
+
         Juego.CargarPartida(username, dificultad, categoria);
 
         return RedirectToAction("Jugar", "Home");
