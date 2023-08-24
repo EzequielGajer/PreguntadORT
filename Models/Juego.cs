@@ -90,7 +90,7 @@ public static class Juego
         Pregunta preguntaSeleccionada = _preguntas[preguntaAleatoria];
 
         // Elimina la pregunta seleccionada solo si quedan más preguntas
-        if (_preguntas.Count > 5)
+        if (_preguntas.Count > 7)
         {
             _preguntas.RemoveAt(preguntaAleatoria);
         }

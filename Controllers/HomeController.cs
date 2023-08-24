@@ -73,7 +73,7 @@ public class HomeController : Controller
 
 
     public IActionResult VerificarRespuesta(int idPregunta, int idRespuesta, int idDificultad)
-{
+    {
     Pregunta pregunta = Juego.ObtenerProximaPregunta();
     List<Respuesta> _ListaRespuestas = Juego.ObtenerProximasRespuestas(pregunta.IdPregunta);
 
@@ -127,6 +127,12 @@ public class HomeController : Controller
     {
     ViewBag.Resultado = "La respuesta es Incorrecta!";
     ViewBag.Puntaje = Juego.PuntajeActual;
+    Juego.RestarVida();
+
+    if (Juego.ObtenerVidas() <= 0)
+        {
+            return View("Derrota");
+        }
 
     ViewBag.RespuestaCorrecta = Juego.ObtenerRespuestaCorrecta(idPregunta);
 
