@@ -39,30 +39,31 @@ public static class BD
     {
         string SQL = "SELECT * FROM Preguntas WHERE (IdCategoria = @IdCategoria OR @IdCategoria = -1) AND (IdDificultad = @IdDificultad OR @IdDificultad = -1)";
 
-        List<Pregunta> _ListadoPreguntas = new List<Pregunta>{}; 
-        using(SqlConnection db = new SqlConnection(_ConnectionString))
+        List<Pregunta> _ListadoPreguntas = new List<Pregunta> { };
+        using (SqlConnection db = new SqlConnection(_ConnectionString))
         {
-          _ListadoPreguntas = db.Query<Pregunta>(SQL, new{IdCategoria = IdCategoria, IdDificultad = IdDificultad}).ToList();
+            _ListadoPreguntas = db.Query<Pregunta>(SQL, new { IdCategoria = IdCategoria, IdDificultad = IdDificultad }).ToList();
         }
         return _ListadoPreguntas;
     }
 
 
-    public static List<Respuesta> ObtenerRespuestas(List<Pregunta> preguntas){
-        
-            List<Respuesta> _ListadoRespuestas = new List<Respuesta>();
-            
-            foreach(Pregunta recorrerPreguntas in preguntas)
+    public static List<Respuesta> ObtenerRespuestas(List<Pregunta> preguntas)
+    {
+
+        List<Respuesta> _ListadoRespuestas = new List<Respuesta>();
+
+        foreach (Pregunta recorrerPreguntas in preguntas)
+        {
+            string SQL = "SELECT * FROM Respuestas WHERE IdPregunta = @pIdPregunta";
+            using (SqlConnection db = new SqlConnection(_ConnectionString))
             {
-                string SQL = "SELECT * FROM Respuestas WHERE IdPregunta = @pIdPregunta";
-                using(SqlConnection db = new SqlConnection(_ConnectionString))
-                {
-                    _ListadoRespuestas.AddRange(db.Query<Respuesta>(SQL, new{pIdPregunta = recorrerPreguntas.IdPregunta}));
-                }
+                _ListadoRespuestas.AddRange(db.Query<Respuesta>(SQL, new { pIdPregunta = recorrerPreguntas.IdPregunta }));
             }
-            return _ListadoRespuestas;
         }
-        
+        return _ListadoRespuestas;
+    }
+
     public static void InsertarPuntaje(string username, int puntaje)
     {
         using (SqlConnection db = new SqlConnection(_ConnectionString))
@@ -76,11 +77,60 @@ public static class BD
     {
         List<Puntaje> _listadoPuntajes = new List<Puntaje>();
 
-        using(SqlConnection db = new SqlConnection(_ConnectionString))
+        using (SqlConnection db = new SqlConnection(_ConnectionString))
         {
             string SQL = "SELECT TOP 8 * FROM Puntajes order by Puntos desc";
             _listadoPuntajes = db.Query<Puntaje>(SQL).ToList();
         }
         return _listadoPuntajes;
     }
+
+    public static void AgregarPregunta(Pregunta preg)
+    {
+        string SQL = "INSERT INTO Preguntas(IdCategoria, IdDificultad, Enunciado, Foto) VALUES (@pCategoria, @pDificultad, @pEnunciado, @pfoto); ";
+        using (SqlConnection db = new SqlConnection(_ConnectionString))
+        {
+            db.Execute(SQL, new { pCategoria = preg.IdCategoria, pDificultad = preg.IdDificultad, pEnunciado = preg.Enunciado, pfoto = preg.Foto });
+        }
+    }
+
+    public static void AgregarRespuesta(Respuesta resp)
+    {
+        string SQL = "INSERT INTO Respuestas(IdPregunta, Opcion, Contenido, Correcta) VALUES (@pIdPregunta, @pOpcion, @pContenido, @pCorrecta)";
+        using (SqlConnection db = new SqlConnection(_ConnectionString))
+        {
+            db.Execute(SQL, new { pIdPregunta = resp.IdPregunta, pOpcion = resp.Opcion, pContenido = resp.Contenido, pCorrecta = resp.Correcta });
+        }
+    }
+
+    public static List<Respuesta> ObtenerRespuestasPorPregunta(int IdPregunta)
+    {
+        string SQL = "SELECT * FROM Respuestas WHERE IdPregunta = @pIdPregunta;";
+        using (SqlConnection db = new SqlConnection(_ConnectionString))
+        {
+            return db.Query<Respuesta>(SQL, new { pIdPregunta = IdPregunta }).ToList();
+        }
+    }
+
+    public static void EliminarRespuesta(int IdPregunta)
+    {
+        string SQL = "DELETE FROM Respuestas WHERE IdPregunta = @pIdPregunta;";
+        using (SqlConnection db = new SqlConnection(_ConnectionString))
+        {
+            db.Execute(SQL, new { pIdPregunta = IdPregunta });
+        }
+    }
+
+    public static void EliminarPregunta(int IdPregunta)
+    {
+        EliminarRespuesta(IdPregunta);
+
+        string SQL = "DELETE FROM Preguntas WHERE IdPregunta = @pIdPregunta;";
+        using (SqlConnection db = new SqlConnection(_ConnectionString))
+        {
+            db.Execute(SQL, new { pIdPregunta = IdPregunta });
+        }
+    }
+
+
 }

@@ -1,0 +1,43 @@
+@{
+    ViewData["Title"] = "Lista de preguntas";
+}
+
+<div class="text-center">
+    <h1 class="fuente display-4 mb-5 text-light">Preguntas del juego</h1>
+</div>
+    <table class="table table-striped Size">
+
+    <thead>
+        <td class="text-light fuente2">ID Pregunta</td>
+        <td class="text-light fuente2">Enunciado</td>
+        <td class="text-light fuente2">Categoría</td>
+        <td class="text-light fuente2">Dificultad</td>
+        <td class="text-light fuente2">Foto</td>
+    </thead>
+
+    <div class="text-light">
+      @foreach(Pregunta p in @ViewBag.Lista)
+      {
+        <tr>
+            <td class="fuente2 text-light"> @p.IdPregunta </td>
+            <td class="fuente2 text-light"> @p.Enunciado </td>
+            <td class="fuente2 text-light"> @p.IdCategoria </td>
+            <td class="fuente2 text-light"> @p.IdDificultad </td>
+            <td class="fuente2 text-light"> @p.Foto </td>
+            <td><a href='@Url.Action("AgregarRespuestas","Home", new{IdPregunta = p.IdPregunta})'class="colorFondo fuente2 btn btn-light text-center">Editar respuestas</a></td>
+            <td><a href='@Url.Action("EliminarPregunta","Home", new{IdPregunta = p.IdPregunta})' class="btn btn-danger">Eliminar</a></td>
+            
+        </tr>  
+      } 
+    </div>
+    </table>
+ 
+    <a href='@Url.Action("AgregarPreguntas","Home")'class="btn btn-primary">Agregar una pregunta</a>
+    <a href='@Url.Action("ConfigurarJuego","Home")'class="btn btn-primary">Jugar</a>
+</div>
+
+  <div class="col-6 mb-5 " style="float:right;">
+   
+
+</div>
+</div>
