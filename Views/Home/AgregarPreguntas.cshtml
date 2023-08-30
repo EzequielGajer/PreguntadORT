@@ -2,37 +2,42 @@
     ViewData["Title"] = "Agregar preguntas";
 }
 
-<div class="text-center">
-    <h1 class="fuente display-4">Agregue una nueva pregunta</h1>
+<link rel="stylesheet" href="~/css/AgregarPreguntas.css">
+
+<div class="header">
+    <h1 class="title">Agregue una nueva pregunta</h1>
 </div>
 
-<form action='@Url.Action("GuardarPregunta","Home")' method="Post" enctype="multipart/form-data">
-    <div class="form-group text-light">
-        
-        <h1 class="fuente mb-4">Ingrese el enunciado</h1>
-        <input type="text" class="form-control" placeholder="Pregunta..." name="Enunciado" autocomplete="off" required>
-        
-        <br>
-        
-        <h1 class="fuente mt-4 mb-2">Categoria</h1>
+<div class="form-container">
+    <h1 class="form-title">Ingrese el enunciado</h1>
+    <form action='@Url.Action("GuardarPregunta","Home")' method="Post" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="text" class="form-input" placeholder="Pregunta..." name="Enunciado" autocomplete="off" required>
+        </div>
+
+        <h1 class="form-title">Categoria</h1>
         @foreach(Categoria p in ViewBag.ListaCategoria)
         {
-            <h2 class="fuente"><input type="radio" name="IdCategoria" value="@p.IdCategoria" required/><label>@p.Nombre</label></h2>
+            <div class="form-group">
+                <input type="radio" id="categoria_@p.IdCategoria" name="IdCategoria" value="@p.IdCategoria" required>
+                <label class="radio-label" for="categoria_@p.IdCategoria">@p.Nombre</label>
+            </div>
         }
 
-        <br>
-
-        <h1 class="fuente mt-4 mb-2">Dificultad</h1>
+        <h1 class="form-title">Dificultad</h1>
         @foreach(Dificultad p in ViewBag.ListaDificultad)
         {
-            <h2 class="fuente"><input type="radio" name="IdDificultad" value="@p.IdDificultad" required/><label>@p.Nombre</label></h2>
+            <div class="form-group">
+                <input type="radio" id="dificultad_@p.IdDificultad" name="IdDificultad" value="@p.IdDificultad" required>
+                <label class="radio-label" for="dificultad_@p.IdDificultad">@p.Nombre</label>
+            </div>
         }
 
-        <br>
+        <h1 class="form-title">Ingrese la URL de la foto del enunciado</h1>
+        <div class="form-group">
+            <input type="text" class="form-input" placeholder="URL de la foto" name="Foto" required>
+        </div>
 
-        <h1 class="fuente mt-4 mb-2">Ingrese la URL de la foto del enunciado</h1>
-        <input type="text" class="form-control" placeholder="URL de la foto" name="Foto" required>
-
-        <button type="submit" class="btn-primary">Agregar pregunta</button>
-    </div>
-</form>
+        <button type="submit" class="form-button">Agregar pregunta</button>
+    </form>
+</div>
