@@ -9,6 +9,7 @@ public static class BD
 
     private static List<Categoria> _ListadoCategorias = new List<Categoria>();
     private static List<Respuesta> _ListaRespuestas = new List<Respuesta>();
+    private static List<Puntaje> _ListaPuntajes = new List<Puntaje>();
 
 
     public static List<Categoria> ObtenerCategorias()
@@ -64,26 +65,24 @@ public static class BD
         return _ListadoRespuestas;
     }
 
-    public static void InsertarPuntaje(string username, int puntaje)
+    public static void InsertarPuntaje(Puntaje puntaje)
     {
-        using (SqlConnection db = new SqlConnection(_ConnectionString))
-        {
-            string SQL = "INSERT INTO Puntajes (FechaHora, Username, Puntaje) VALUES (@FechaHora, @Username, @Puntaje)";
-            db.Execute(SQL, new { FechaHora = DateTime.Now, Username = username, Puntaje = puntaje });
-        }
+        string SQL = "INSERT INTO Puntajes(Nombre,Puntos,FechaHora) VALUES (@pUsername, @pPuntaje, @pFechaHora)";
+            using(SqlConnection db = new SqlConnection(_ConnectionString))
+            {
+                db.Execute(SQL, new{pUsername = puntaje.Nombre, pPuntaje = puntaje.Puntos, pFechaHora = puntaje.FechaHora});
+            }
     }
 
-    public static List<Puntaje> ObtenerPuntajes()
+    public static List<Puntaje> ObtenerHistorialPuntos()
+{
+    using (SqlConnection db = new SqlConnection(_ConnectionString))
     {
-        List<Puntaje> _listadoPuntajes = new List<Puntaje>();
-
-        using (SqlConnection db = new SqlConnection(_ConnectionString))
-        {
-            string SQL = "SELECT TOP 8 * FROM Puntajes order by Puntos desc";
-            _listadoPuntajes = db.Query<Puntaje>(SQL).ToList();
-        }
-        return _listadoPuntajes;
+        string SQL = "SELECT * FROM Puntajes ORDER BY Puntos DESC";
+        return db.Query<Puntaje>(SQL).ToList();
     }
+}
+
 
     public static void AgregarPregunta(Pregunta preg)
     {
@@ -131,6 +130,17 @@ public static class BD
             db.Execute(SQL, new { pIdPregunta = IdPregunta });
         }
     }
+
+    public static void RegistrarHistorialPuntos(int idUsuario, int puntosObtenidos)
+{
+    using (SqlConnection db = new SqlConnection(_ConnectionString))
+    {
+        string SQL = "INSERT INTO HistorialPuntos (IdUsuario, FechaHora, PuntosObtenidos) " +
+                     "VALUES (@IdUsuario, @FechaHora, @PuntosObtenidos)";
+        db.Execute(SQL, new { IdUsuario = idUsuario, FechaHora = DateTime.Now, PuntosObtenidos = puntosObtenidos });
+    }
+}
+
 
 
 }

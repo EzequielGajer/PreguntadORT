@@ -68,6 +68,9 @@ public class HomeController : Controller
 
         if (PreguntaActual == null)
         {
+            DateTime fechaHora = DateTime.Now;
+            Puntaje puntaje = new Puntaje(Juego.username, Juego.PuntajeActual, fechaHora);
+            BD.InsertarPuntaje(puntaje);
             return View("Fin");
         }
 
@@ -77,7 +80,14 @@ public class HomeController : Controller
         ViewBag.Enunciado = PreguntaActual.Enunciado;
         ViewBag.Pregunta = PreguntaActual;
         ViewBag.Respuestas = respuestas;
+
         return View("Jugar");
+    }
+
+    public IActionResult HistorialPuntaje()
+    {
+        ViewBag.Score = BD.ObtenerHistorialPuntos();
+        return View("HistorialPuntaje");
     }
 
     public IActionResult ListaPreguntas()
@@ -260,19 +270,6 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
-
-    public IActionResult HighScores()
-    {
-        List<Puntaje> puntajes = BD.ObtenerPuntajes();
-        return View("HighScores", puntajes);
-    }
-
-    [HttpPost]
-    public IActionResult InsertarPuntaje(string username, int puntaje)
-    {
-        BD.InsertarPuntaje(username, puntaje);
-        return View("HighScores");
     }
 
     public IActionResult EliminarPregunta(int IdPregunta)

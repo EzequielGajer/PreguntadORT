@@ -74,6 +74,7 @@ public static class Juego
 
     public static void CargarPartida(string username, int dificultad, int categoria)
     {
+
         _preguntas = BD.ObtenerPreguntas(dificultad, categoria);
         Console.WriteLine(_preguntas.Count);
         _respuestas = BD.ObtenerRespuestas(_preguntas);
@@ -172,7 +173,5 @@ public static class Juego
 
         return false;
     }
-
-
-
+    
 }

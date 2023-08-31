@@ -1,23 +1,18 @@
 public class Puntaje
 {
-    public int IdPuntaje { get; set; }
-    public string UserName { get; set; }
-
+    public string Nombre { get; set; }
     public int Puntos { get; set; }
     public DateTime FechaHora { get; set; }
-    public int Tiempo { get; set; }
 
     public Puntaje()
     {
 
     }
 
-    public Puntaje(int idPuntaje, string username, int puntos, DateTime fechaHora, int tiempo)
+    public Puntaje(string nombre, int puntos, DateTime fechaHora)
     {
-        IdPuntaje = idPuntaje;
-        UserName = username;
+        Nombre = nombre;
         Puntos = puntos;
         FechaHora = fechaHora;
-        Tiempo = tiempo;
     }
 }
